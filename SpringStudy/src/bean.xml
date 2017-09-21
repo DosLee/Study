@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 把资源都交给spring来管理
+    bean的实例化：
+        spring创建bean对象，默认情况下都需要调用默认无参构造函数。没有无参构造函数，不能创建成功。
+    以下内容了解：
+        接管静态工厂
+        接管实例工厂
+    -->
+    <!-- 给bean中的属性注入值：
+		注入的方式只有两种：
+			第一种方式：使用构造函数注入
+			第二种方式：使用set方法注入
+	 -->
+    <!-- 构造函数注入：
+        涉及的标签：
+            constructor-arg：给构造函数传值
+        涉及的属性：
+            以下都是找给哪个参数赋值的
+            index：指的参数在构造函数参数列表中的索引。从0开始
+            name：  指的参数在构造函数中的名称。			以后就用这一个
+            type： 指的参数在构造函数中的数据类型。
+            =========================
+            以下都是指给参数赋什么值的
+            value：赋的是基本数据类型或者String类型的值
+            ref：赋的是其他bean类型的值
+-->
+    <bean class="com.mrj.service.impl.CustomerServiceImpl" id="customerService" >
+        <constructor-arg name="name" value="Mr" />
+        <constructor-arg name="address" value="成都"/>
+        <constructor-arg name="time" ref="time"/>
+    </bean>
+
+    <bean class="java.util.Date" id="time"/>
+    <!-- =========================================================================================== -->
+    <!-- set方法注入： 		***
+            涉及的标签：
+                property：给指定属性赋值
+            涉及的属性：
+                name:找的是属性的set方法
+                ref: 赋的是其他bean类型的值
+                value:赋的是基本数据类型或者String类型的值
+
+        <bean id="customerService1" class="cn.itcast.service.impl.CustomerServiceImpl1">
+            <property name="name" value="泰斯特"></property>
+            <property name="age" value="20"></property>
+            <property name="birthday" ref="now"></property>
+        </bean>-->
+
+    <!-- set方法注入中衍生的两种新的方式
+        使用p名称空间或者SpringEL表达式
+        这两种方式都是基于set方法注入的。所以了解即可
+    -->
+    <!-- 使用p名称空间:要想使用，必须先导入
+    <bean id="customerService1" class="cn.itcast.service.impl.CustomerServiceImpl1" p:name="test" p:age="30" p:birthday-ref="now"></bean>
+    -->
+
+    <!-- spring的EL表达式
+        写法：#{表达式}
+        作用：使用#{}可以给其他bean类型转成value
+    -->
+    <bean id="customerService1" class="com.mrj.service.impl.CustomerServiceImpl1">
+        <property name="name" value="mrj"/>
+        <property name="age" value="22"/>
+        <property name="birthday" ref="date"/>
+    </bean>
+    <bean class="java.util.Date" id="date"/>
+
+    <!-- 注入集合数据：
+			明确：结构相同，标签可以互换
+	-->
+    <bean id="customerService2" class="com.mrj.service.impl.CustomerServiceImpl2">
+        <property name="myStrs">
+            <set>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </set>
+        </property>
+        <property name="myList">
+            <array>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </array>
+        </property>
+        <property name="mySet">
+            <list>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </list>
+        </property>
+        <property name="myMap">
+            <props>
+                <prop key="testC">CCC</prop>
+                <prop key="testD">DDD</prop>
+            </props>
+        </property>
+        <property name="myProps">
+            <map>
+                <entry key="testA" value="AAA"></entry>
+                <entry key="testB">
+                    <value>BBB</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>
