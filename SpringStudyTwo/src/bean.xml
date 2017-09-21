@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 搭建基于注解的IoC开发环境：
+            1、前面步骤和基于XML的配置一样
+            2、导入context的名称空间
+            3、使用context名称空间下的标签，配置spring在运行时要扫描的包
+		        当配置好后，spring在一加载配置文件时，会到指定的包下扫描注解
+		        当找到了@Component注解，就会创建bean对象，存入容器之中
+            4、spring4版本中的特殊问题：
+	     运行基于注解的IoC依赖了一个AOP的核心jar包
+ -->
+    <context:component-scan base-package="com.mr"/>
+</beans>
