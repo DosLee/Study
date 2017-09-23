@@ -21,6 +21,7 @@ public class BeanFactory {
         IAccountService proxyInstance = (IAccountService) Proxy.newProxyInstance(as.getClass().getClassLoader(), as.getClass().getInterfaces(), new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                //切入点
                 if ("transfer".equals(method.getName())) {
                     try {
                         TransactionManager.startTransaction();
